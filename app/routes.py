@@ -21,17 +21,21 @@ def index():
     tasks = Task.query.order_by(Task.id.desc()).all()
 
     total = len(tasks)
-    completed = len([t for t in tasks if t.completed])
-    pending = total - completed
+
+    todo = len([t for t in tasks if t.status == "To Do"])
+
+    progress = len([t for t in tasks if t.status == "In Progress"])
+
+    completed = len([t for t in tasks if t.status == "Completed"])
 
     return render_template(
         "index.html",
         tasks=tasks,
         total=total,
+        todo=todo,
+        progress=progress,
         completed=completed,
-        pending=pending,
     )
-
 
 # ==========================
 # Add Task
@@ -45,6 +49,7 @@ def add_task():
             title=request.form["title"],
             description=request.form["description"],
             priority=request.form["priority"],
+            status=request.form["status"],
         )
 
         db.session.add(task)
@@ -56,15 +61,20 @@ def add_task():
 
 
 # ==========================
-# Complete / Undo Task
+# Update Task Status
 # ==========================
-@main.route("/complete/<int:task_id>")
-def complete_task(task_id):
+@main.route("/status/<int:task_id>")
+def update_status(task_id):
 
     task = Task.query.get_or_404(task_id)
 
-    # Toggle completion status
-    task.completed = not task.completed
+    if task.status == "To Do":
+
+        task.status = "In Progress"
+
+    elif task.status == "In Progress":
+
+        task.status = "Completed"
 
     db.session.commit()
 
@@ -80,6 +90,7 @@ def delete_task(task_id):
     task = Task.query.get_or_404(task_id)
 
     db.session.delete(task)
+
     db.session.commit()
 
     return redirect(url_for("main.index"))

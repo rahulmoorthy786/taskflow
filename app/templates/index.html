@@ -6,17 +6,22 @@ TaskFlow
 
 {% block content %}
 
-<h1>Welcome to DevOps Learning</h1>
+<div class="hero">
 
-<p class="subtitle">
-    Learn • Build • Secure • Deploy
-</p>
+    <h1>🚀 Welcome to DevOps Learning</h1>
 
-<a href="{{ url_for('main.add_task') }}">
-    <button class="primary-btn">
-        + Add Task
-    </button>
-</a>
+    <p class="subtitle">
+        Learn • Build • Secure • Deploy
+    </p>
+
+    <a href="{{ url_for('main.add_task') }}">
+        <button class="primary-btn">
+            + Add Task
+        </button>
+    </a>
+
+</div>
+
 
 <div class="stats">
 
@@ -26,84 +31,97 @@ TaskFlow
     </div>
 
     <div class="card">
-        <h2>{{ completed }}</h2>
-        <p>Completed</p>
+        <h2>{{ todo }}</h2>
+        <p>📋 To Do</p>
     </div>
 
     <div class="card">
-        <h2>{{ pending }}</h2>
-        <p>Pending</p>
+        <h2>{{ progress }}</h2>
+        <p>🟠 In Progress</p>
+    </div>
+
+    <div class="card">
+        <h2>{{ completed }}</h2>
+        <p>✅ Completed</p>
     </div>
 
 </div>
 
+
 <h2>Your Tasks</h2>
+
 
 {% if tasks %}
 
-    {% for task in tasks %}
+{% for task in tasks %}
 
-    <div class="task-card">
+<div class="task-card">
 
-        <h3>{{ task.title }}</h3>
+    <h3>{{ task.title }}</h3>
 
-        <p>{{ task.description }}</p>
+    <p>{{ task.description }}</p>
 
-        <div class="task-footer">
+    <div class="task-footer">
 
-            <span class="priority">
-                {{ task.priority }}
-            </span>
+        <span class="priority">
 
-            <div>
+            {{ task.priority }}
 
-                {% if task.completed %}
+        </span>
 
-                    <span style="color: limegreen;">
-                        ✅ Completed
-                    </span>
+        <div>
 
-                {% else %}
+            {% if task.status == "To Do" %}
 
-                    <span style="color: orange;">
-                        🟠 Pending
-                    </span>
+                <span style="color:#ffb347;">
+                    📋 To Do
+                </span>
 
-                {% endif %}
+            {% elif task.status == "In Progress" %}
 
-                |
+                <span style="color:#ffa500;">
+                    🟠 In Progress
+                </span>
 
-                <a href="{{ url_for('main.complete_task', task_id=task.id) }}">
+            {% else %}
 
-                    {% if task.completed %}
-                        Undo
-                    {% else %}
-                        Complete
-                    {% endif %}
+                <span style="color:#4CAF50;">
+                    ✅ Completed
+                </span>
 
-                </a>
+            {% endif %}
 
-                |
+            |
 
-                <a
-                    href="{{ url_for('main.delete_task', task_id=task.id) }}"
-                    style="color:red;"
-                >
-                    Delete
-                </a>
+            <a href="{{ url_for('main.update_status', task_id=task.id) }}">
+                Change Status
+            </a>
 
-            </div>
+            |
+
+            <a
+                href="{{ url_for('main.delete_task', task_id=task.id) }}"
+                style="color:#ff5555;"
+            >
+                Delete
+            </a>
 
         </div>
 
     </div>
 
-    {% endfor %}
+</div>
+
+{% endfor %}
 
 {% else %}
 
 <div class="empty">
-    No tasks yet.
+
+    <h3>No Tasks Yet 🚀</h3>
+
+    <p>Create your first DevOps task.</p>
+
 </div>
 
 {% endif %}
