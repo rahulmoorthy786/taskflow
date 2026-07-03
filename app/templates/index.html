@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}
+TaskFlow
+{% endblock %}
+
+{% block content %}
+
+<h1>Welcome to DevOps Learning</h1>
+
+<p class="subtitle">
+    Learn • Build • Secure • Deploy
+</p>
+
+<a href="{{ url_for('main.add_task') }}">
+    <button class="primary-btn">
+        + Add Task
+    </button>
+</a>
+
+<div class="stats">
+
+    <div class="card">
+        <h2>{{ total }}</h2>
+        <p>Total Tasks</p>
+    </div>
+
+    <div class="card">
+        <h2>{{ completed }}</h2>
+        <p>Completed</p>
+    </div>
+
+    <div class="card">
+        <h2>{{ pending }}</h2>
+        <p>Pending</p>
+    </div>
+
+</div>
+
+<h2>Your Tasks</h2>
+
+{% if tasks %}
+
+    {% for task in tasks %}
+
+    <div class="task-card">
+
+        <h3>{{ task.title }}</h3>
+
+        <p>{{ task.description }}</p>
+
+        <div class="task-footer">
+
+            <span class="priority">
+                {{ task.priority }}
+            </span>
+
+            <div>
+
+                {% if task.completed %}
+
+                    <span style="color: limegreen;">
+                        ✅ Completed
+                    </span>
+
+                {% else %}
+
+                    <span style="color: orange;">
+                        🟠 Pending
+                    </span>
+
+                {% endif %}
+
+                |
+
+                <a href="{{ url_for('main.complete_task', task_id=task.id) }}">
+
+                    {% if task.completed %}
+                        Undo
+                    {% else %}
+                        Complete
+                    {% endif %}
+
+                </a>
+
+                |
+
+                <a
+                    href="{{ url_for('main.delete_task', task_id=task.id) }}"
+                    style="color:red;"
+                >
+                    Delete
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+{% else %}
+
+<div class="empty">
+    No tasks yet.
+</div>
+
+{% endif %}
+
+{% endblock %}
