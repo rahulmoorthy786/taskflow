@@ -1,220 +1,105 @@
-# 🚀 TaskFlow - Flask Task Management App
+# 🚀 TaskFlow
 
-TaskFlow is a simple task management application built with **Flask** and **SQLite** as part of my DevOps learning journey.
+A simple Task Management application built with **Flask** for learning modern DevOps practices.
 
-The project focuses on learning software development alongside DevOps best practices such as Git branching, Docker, CI/CD, security scanning, and Kubernetes.
+This project is part of my DevOps learning journey and will gradually evolve from a local Flask application into a production-ready application using:
+
+- Docker
+- Docker Compose
+- PostgreSQL
+- GitHub Actions
+- SonarQube
+- Trivy
+- AWS
+- Kubernetes
 
 ---
 
 # Features
 
 - Add Tasks
+- Update Task Status
 - Delete Tasks
-- Task Priority
-- Task Status
-    - 📋 To Do
-    - 🟠 In Progress
-    - ✅ Completed
-- Health Check Endpoint
+- Task Priorities
 - SQLite Database
-- Flask Blueprints
-- SQLAlchemy ORM
-- Flask-Migrate
+- Health Check Endpoint
 
 ---
 
 # Tech Stack
 
-- Python 3.12
-- Flask
-- Flask SQLAlchemy
-- Flask Migrate
-- SQLite
-- HTML
-- CSS
+| Component | Technology |
+|-----------|------------|
+| Framework | Flask 3.x |
+| Language | Python 3.12 |
+| Database | SQLite (Current) |
+| Future Database | PostgreSQL |
+| ORM | Flask-SQLAlchemy |
+| Migrations | Flask-Migrate |
+| OS | Ubuntu 24.04 LTS |
 
 ---
 
 # Project Structure
 
-```
+```text
 taskflow/
-│
 ├── app/
 │   ├── static/
 │   ├── templates/
 │   ├── __init__.py
+│   ├── config.py
 │   ├── models.py
-│   ├── routes.py
-│   └── config.py
+│   └── routes.py
 │
 ├── instance/
 │   └── taskflow.db
 │
 ├── migrations/
 │
-├── run.py
 ├── requirements.txt
+├── run.py
+├── .env.example
 └── README.md
 ```
 
 ---
 
-# Clone Repository
+# Running Locally
+
+Clone the repository
 
 ```bash
-git clone https://github.com/<YOUR_USERNAME>/taskflow.git
-
+git clone <repo-url>
 cd taskflow
 ```
 
----
-
-# Create Virtual Environment
-
-Linux
+Create a Python virtual environment
 
 ```bash
 python3 -m venv .venv
 ```
 
-Windows
-
-```powershell
-python -m venv .venv
-```
-
-Activate
-
-Linux
+Activate the virtual environment
 
 ```bash
 source .venv/bin/activate
 ```
 
-Windows
-
-```powershell
-.venv\Scripts\activate
-```
-
----
-
-# Install Dependencies
+Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-# Run Application
+Run the application
 
 ```bash
 python run.py
 ```
 
-Application will be available at
+Application URL
 
 ```
 http://localhost:5000
 ```
-
----
-
-# Database
-
-Initialize database
-
-```bash
-flask db upgrade
-```
-
-If starting fresh
-
-```bash
-flask db init
-flask db migrate -m "Initial schema"
-flask db upgrade
-```
-
----
-
-# Health Check
-
-```
-GET /health
-```
-
-Example
-
-```
-http://localhost:5000/health
-```
-
-Returns
-
-```json
-{
-  "application": "TaskFlow",
-  "status": "healthy"
-}
-```
-
----
-
-# Git Workflow
-
-Create a feature branch
-
-```bash
-git checkout -b feature/<feature-name>
-```
-
-Commit changes
-
-```bash
-git add .
-
-git commit -m "feat: description"
-```
-
-Push
-
-```bash
-git push origin feature/<feature-name>
-```
-
-Merge into main after testing.
-
----
-
-# Upcoming Milestones
-
-- Multi-stage Dockerfile
-- Docker Compose
-- GitHub Actions CI
-- Trivy Security Scanning
-- SonarQube
-- Kubernetes
-- Helm
-- Terraform
-- AWS Deployment
-
----
-
-# Contributing
-
-Fork the repository.
-
-Create your own feature branch.
-
-Submit a Pull Request.
-
-Suggestions and improvements are always welcome.
-
----
-
-# License
-
-MIT License
