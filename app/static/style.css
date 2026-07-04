@@ -94,14 +94,13 @@ transition:.3s;
 
 display:grid;
 
-grid-template-columns:repeat(3,1fr);
+grid-template-columns:repeat(4,1fr);
 
 gap:20px;
 
 margin-bottom:40px;
 
 }
-
 .card{
 
 background:#1f2937;
@@ -182,4 +181,49 @@ text-align:center;
 
 color:#9ca3af;
 
+}
+
+
+
+/* ==================================================
+   Action Links
+================================================== */
+
+.status-link{
+    color:#ffb020;
+    text-decoration:none;
+    font-weight:600;
+    transition:all 0.3s ease;
+}
+
+.status-link:hover{
+    color:#ffffff;
+}
+
+.task-footer a{
+    text-decoration:none;
+    margin-left:4px;
+}
+
+.task-footer a:hover{
+    opacity:0.9;
+}
+
+/* ==================================================
+   Task Status Colors
+================================================== */
+
+.status-todo{
+    color:#ffb020;
+    font-weight:600;
+}
+
+.status-progress{
+    color:#ff9800;
+    font-weight:600;
+}
+
+.status-completed{
+    color:#22c55e;
+    font-weight:600;
 }

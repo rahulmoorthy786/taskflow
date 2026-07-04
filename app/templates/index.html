@@ -22,11 +22,10 @@ TaskFlow
 
 </div>
 
-
 <div class="stats">
 
     <div class="card">
-        <h2>{{ total }}</h2>
+        <h2>{{ tasks|length }}</h2>
         <p>Total Tasks</p>
     </div>
 
@@ -47,81 +46,76 @@ TaskFlow
 
 </div>
 
-
 <h2>Your Tasks</h2>
-
 
 {% if tasks %}
 
-{% for task in tasks %}
+    {% for task in tasks %}
 
-<div class="task-card">
+    <div class="task-card">
 
-    <h3>{{ task.title }}</h3>
+        <h3>{{ task.title }}</h3>
 
-    <p>{{ task.description }}</p>
+        <p>{{ task.description }}</p>
 
-    <div class="task-footer">
+        <div class="task-footer">
 
-        <span class="priority">
+            <span class="priority">
+                {{ task.priority }}
+            </span>
 
-            {{ task.priority }}
+            <div>
 
-        </span>
+                {% if task.status == "To Do" %}
 
-        <div>
+                    <span class="status-todo">
+                        📋 To Do
+                    </span>
 
-            {% if task.status == "To Do" %}
+                {% elif task.status == "In Progress" %}
 
-                <span style="color:#ffb347;">
-                    📋 To Do
-                </span>
+                    <span class="status-progress">
+                        🟠 In Progress
+                    </span>
 
-            {% elif task.status == "In Progress" %}
+                {% else %}
 
-                <span style="color:#ffa500;">
-                    🟠 In Progress
-                </span>
+                    <span class="status-completed">
+                        ✅ Completed
+                    </span>
 
-            {% else %}
+                {% endif %}
 
-                <span style="color:#4CAF50;">
-                    ✅ Completed
-                </span>
+                |
 
-            {% endif %}
+                <a
+                    href="{{ url_for('main.update_status', task_id=task.id) }}"
+                    class="status-link"
+                >
+                    Change Status
+                </a>
 
-            |
+                |
 
-            <a href="{{ url_for('main.update_status', task_id=task.id) }}">
-                Change Status
-            </a>
+                <a
+                    href="{{ url_for('main.delete_task', task_id=task.id) }}"
+                    style="color:#ef4444;"
+                >
+                    Delete
+                </a>
 
-            |
-
-            <a
-                href="{{ url_for('main.delete_task', task_id=task.id) }}"
-                style="color:#ff5555;"
-            >
-                Delete
-            </a>
+            </div>
 
         </div>
 
     </div>
 
-</div>
-
-{% endfor %}
+    {% endfor %}
 
 {% else %}
 
 <div class="empty">
-
-    <h3>No Tasks Yet 🚀</h3>
-
-    <p>Create your first DevOps task.</p>
-
+    No tasks yet.
 </div>
 
 {% endif %}
