@@ -1,6 +1,6 @@
 # Goal - To build and deploy Image from CI
 
-name: CD
+name: Deploy
 
 on:
      workflow_dispatch:
