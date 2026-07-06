@@ -1,0 +1,31 @@
+# Goal - To build and deploy Image from CI
+
+name: CD
+
+on:
+     workflow_call:
+       
+
+jobs:
+    deploy:
+        runs-on: self-hosted
+        steps:
+            - name: Code Checkout
+              uses: actions/checkout@v7
+
+            - name: Copy .env file
+              run: |
+                cp .env.example .env
+                
+            - name: Docker Setup Login
+              uses: docker/login-action@v4
+              with:
+                username: ${{ vars.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: Deploy the container using Docker Compose
+              run: |
+                docker compose down
+                docker compose up -d --build
+                
+           
