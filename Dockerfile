@@ -1,39 +1,52 @@
-# Build Stage 
-
-FROM python:3.12-alpine  AS builder
+# ---------- Builder Stage ----------
+FROM python:3.12-alpine AS builder
 
 WORKDIR /app
 
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-
-COPY requirements.txt .
-
-RUN python -m venv /opt/venv
+# Create non-root user and virtual environment
+RUN addgroup -S appgroup && \
+    adduser -S appuser -G appgroup && \
+    python -m venv /opt/venv
 
 ENV PATH="/opt/venv/bin:$PATH"
 
-RUN pip install --no-cache-dir --root-user-action=ignore -r requirements.txt
+# Install Python dependencies
+COPY requirements.txt .
 
-RUN chown -R appuser:appgroup /app
+RUN pip install --no-cache-dir \
+    --root-user-action=ignore \
+    -r requirements.txt
+
+# Copy application source
+COPY . .
+
+# Set ownership
+RUN chown -R appuser:appgroup /app /opt/venv
 
 USER appuser
 
-COPY . .
-
-# Runner Stage
-
-FROM python:3.12-slim  AS runner
+# ---------- Runtime Stage ----------
+FROM python:3.12-slim AS runner
 
 WORKDIR /app
 
-COPY requirements.txt  .
+# Create the same non-root user
+RUN groupadd -r appgroup && \
+    useradd -r -g appgroup appuser
 
-RUN pip install --no-cache-dir --root-user-action=ignore -r requirements.txt
+ENV PATH="/opt/venv/bin:$PATH"
 
-RUN pip install --upgrade pip
+# Copy virtual environment
+COPY --from=builder /opt/venv /opt/venv
 
+# Copy application
 COPY --from=builder /app /app
+
+# Fix permissions
+RUN chown -R appuser:appgroup /app /opt/venv
+
+USER appuser
 
 EXPOSE 5000
 
-CMD ["python","run.py"]
+CMD ["python", "run.py"]
