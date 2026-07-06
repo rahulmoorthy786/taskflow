@@ -37,6 +37,7 @@ jobs:
       - name: Docker Build and Push
         uses: docker/build-push-action@v7
         with:
-            context: ./Dockerfile
+            context: ./taskflow
+            file: ./taskflow/Dockerfile
             push: true
             tags: ${{ vars.DOCKERHUB_USERNAME }}/taskflow:latest
