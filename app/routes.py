@@ -37,6 +37,7 @@ def index():
         completed=completed,
     )
 
+
 # ==========================
 # Add Task
 # ==========================
@@ -58,7 +59,6 @@ def add_task():
         return redirect(url_for("main.index"))
 
     return render_template("add_task.html")
-
 
 
 # ==========================
