@@ -1,0 +1,25 @@
+# Goal - To ensure my running application is free from OWASP top 10 security issues.
+
+name: OWASP Dast Scan
+
+on:
+    workflow_call:
+
+jobs:
+    zap-scan:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+
+            - name: Wait for services to be healthy
+              run: |
+                timeout 60s sh -c 'until curl -s http://${{ secrets.EC2_HOST }}:5000 > /dev/null; do sleep 2; done'  
+
+            - name: OWASP ZAP Scan
+              uses: zaproxy/action-baseline@v0.14.0
+              with:
+                token: ${{ secrets.GITHUB_TOKEN }}
+                target: 'http://${{ secrets.EC2_HOST }}:5000'
+                fail_action: false
+                allow_issue_writing: false
