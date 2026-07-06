@@ -6,7 +6,7 @@ on:
   push:
     paths:
       - 'build'
-      - '!.github/workflows/**'
+    #  - '!.github/workflows/**'
     branches: [feat/matrix-build]
 
 jobs:
