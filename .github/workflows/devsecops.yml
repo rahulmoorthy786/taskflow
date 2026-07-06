@@ -4,6 +4,7 @@ name: DevSecOps
 
 on:
     push:
+        branches: [main]
 
 jobs:
     
@@ -29,11 +30,9 @@ jobs:
     code-tests:
         uses:  ./.github/workflows/code-tests.yml
 
-    # push-to-docker-hub:
-
-      docker-push:
-          uses: ./.github/workflows/docker-push.yml
-          needs: [code-quality,secret-scanning,dependency-checks,docker-checks,sonar_qube,code-tests]
-          secrets: inherit
+    docker-push:
+        uses: ./.github/workflows/docker-push.yml
+        needs: [code-quality,secret-scanning,dependency-checks,docker-checks,sonar_qube,code-tests]
+        secrets: inherit
 
 
