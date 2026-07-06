@@ -37,7 +37,7 @@ jobs:
       - name: Deploy Image to Docker Hub
         uses: docker/build-push-action@v7
         with:
-            context: ./taskflow
-            file: ./taskflow/Dockerfile
+            context: .
+            file: ./Dockerfile
             push: true
             tags: ${{ secrets.DOCKER_USERNAME }}/taskflow:latest
