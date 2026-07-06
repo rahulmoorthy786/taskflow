@@ -3,12 +3,8 @@
 name: CD
 
 on:
-     workflow_run:
-        workflows: ["CI"]
-        types:
-            - completed
-        branches:
-            - feat/dockerization    
+     workflow_call:
+       
 
 jobs:
     deploy:
@@ -30,4 +26,6 @@ jobs:
             - name: Deploy the container using Docker Compose
               run: |
                 docker-compose down
-                docker-compose up -d --build    
+                docker-compose up -d --build
+                
+           

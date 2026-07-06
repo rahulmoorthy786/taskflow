@@ -41,3 +41,9 @@ jobs:
             file: ./Dockerfile
             push: true
             tags: ${{ vars.DOCKERHUB_USERNAME }}/taskflow:latest
+
+
+  deploy:
+    needs: build
+    uses: ./.github/workflows/cd.yml
+    secrets: inherit     
