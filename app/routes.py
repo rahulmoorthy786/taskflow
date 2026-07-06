@@ -17,7 +17,6 @@ main = Blueprint("main", __name__)
 # ==========================
 @main.route("/")
 def index():
-
     tasks = Task.query.order_by(Task.id.desc()).all()
 
     total = len(tasks)
@@ -43,9 +42,7 @@ def index():
 # ==========================
 @main.route("/add", methods=["GET", "POST"])
 def add_task():
-
     if request.method == "POST":
-
         task = Task(
             title=request.form["title"],
             description=request.form["description"],
@@ -66,15 +63,12 @@ def add_task():
 # ==========================
 @main.route("/status/<int:task_id>")
 def update_status(task_id):
-
     task = Task.query.get_or_404(task_id)
 
     if task.status == "To Do":
-
         task.status = "In Progress"
 
     elif task.status == "In Progress":
-
         task.status = "Completed"
 
     db.session.commit()
@@ -87,7 +81,6 @@ def update_status(task_id):
 # ==========================
 @main.route("/delete/<int:task_id>")
 def delete_task(task_id):
-
     task = Task.query.get_or_404(task_id)
 
     db.session.delete(task)
@@ -102,7 +95,6 @@ def delete_task(task_id):
 # ==========================
 @main.route("/health")
 def health():
-
     return jsonify(
         {
             "status": "healthy",
