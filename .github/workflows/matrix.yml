@@ -11,14 +11,14 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                python-version: ["3.10", "3.11", "3.12", "3.13"]
+                python-version: ["3.11", "3.12", "3.13"]
         services:
             postgres:
                 image: postgres:16-alpine
                 env:
-                    POSTGRES_DB: taskflow_test
-                    POSTGRES_USER: postgres
-                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: ${{ env.POSTGRES_DB }}
+                    POSTGRES_USER: ${{ env.POSTGRES_USER }}
+                    POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
                 ports:
                     - 5432:5432
                 options: >-
