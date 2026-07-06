@@ -4,10 +4,10 @@ name: CI
 
 on:
   push:
-    paths:
-      - '**'
-      - '!.github/workflows/**'
-    branches: [feat/matrix-build]  
+    # paths:
+    #   - '**'
+    #   - '!.github/workflows/**'
+    branches: [main]  
 
 jobs:
   build:
