@@ -8,10 +8,23 @@ from .models import db
 migrate = Migrate()
 
 
-def create_app():
+def create_app(test_config=None):
+    """
+    Application Factory
+
+    Args:
+        test_config (dict, optional):
+            Configuration overrides used during testing.
+    """
+
     app = Flask(__name__)
 
+    # Load default configuration
     app.config.from_object(Config)
+
+    # Override configuration when running tests
+    if test_config:
+        app.config.update(test_config)
 
     # Initialize SQLAlchemy
     db.init_app(app)
