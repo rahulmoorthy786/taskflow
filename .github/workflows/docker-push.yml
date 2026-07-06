@@ -1,21 +1,17 @@
 # Goal - I have to Lint, Build, Test the code for the project.
 
-name: CI
+name: Docker Push
 
 on:
-     workflow_dispatch:
+     workflow_call:
 
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    
-      
+    runs-on: ubuntu-latest         
     steps: 
       - name: Code Checkout
         uses: actions/checkout@v6
-
-      
 
       - name: Docker Setup Login
         uses: docker/login-action@v4
@@ -31,9 +27,5 @@ jobs:
             push: true
             tags: ${{ vars.DOCKERHUB_USERNAME }}/taskflow:latest
 
-
-  deploy:
-    needs: build
-    uses: ./.github/workflows/cd.yml
-    secrets: inherit     
+  
 
