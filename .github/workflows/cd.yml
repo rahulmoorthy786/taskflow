@@ -6,28 +6,23 @@ on:
      workflow_dispatch:
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
+    deploy:
+        runs-on: self-hosted
         steps:
             - name: Code Checkout
-              uses: actions/checkout@v6
-              
+              uses: actions/checkout@v7
+
             - name: Copy .env file
               run: |
                 cp .env.example .env
-
+                
             - name: Docker Setup Login
               uses: docker/login-action@v4
               with:
-                username: ${{ secrets.DOCKER_USERNAME }}
-                password: ${{ secrets.DOCKER_PASSWORD }}
-                
-            - name: Deploy Image to Docker Hub
+                username: ${{ vars.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: Deploy the container using Docker Compose
               run: |
-                docker build -t ${{ secrets.DOCKER_USERNAME }}/taskflow:latest .
-                docker push ${{ secrets.DOCKER_USERNAME }}/taskflow:latest
-                
-            - name: Deploy the container with the Docker compose
-              run: |
-                docker compose pull
-                docker compose up -d
+                docker-compose down
+                docker-compose up -d --build    
