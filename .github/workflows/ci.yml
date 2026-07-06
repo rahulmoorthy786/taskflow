@@ -31,13 +31,12 @@ jobs:
       - name: Docker Setup Login
         uses: docker/login-action@v4
         with:
-                username: ${{ vars.DOCKER_USERNAME }}
-                password: ${{ secrets.DOCKER_TOKEN }}
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
                 
       - name: Docker Build and Push
         uses: docker/build-push-action@v7
         with:
-            context: .
-            file: ./Dockerfile
+            context: ./Dockerfile
             push: true
             tags: ${{ vars.DOCKER_USERNAME }}/taskflow:latest
