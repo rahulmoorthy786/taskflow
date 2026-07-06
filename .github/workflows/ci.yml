@@ -7,8 +7,7 @@ on:
     paths:
       - '**'
       - '!.github/workflows/**'
-    branches:
-      - main  
+    branches: [feat/matrix-build]  
 
 jobs:
   build:
@@ -51,3 +50,4 @@ jobs:
     needs: build
     uses: ./.github/workflows/cd.yml
     secrets: inherit     
+
