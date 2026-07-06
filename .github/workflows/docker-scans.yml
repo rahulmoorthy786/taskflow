@@ -1,0 +1,18 @@
+# Goal - Ensure the docker files nad Docker Images are security tested.
+
+name: Docker Scan
+
+on:
+    workflow_call:
+
+jobs:
+    docker-file-lint-scan:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Code Checkout
+              uses: actions/checkout@v7
+
+            - name: Dockerfile Lint
+              uses: hadolint/hadolint-action@v3.1.0
+              with:
+                dockerfile: ./Dockerfile
