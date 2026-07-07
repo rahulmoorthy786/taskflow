@@ -1,31 +1,24 @@
-# Goal - To build and deploy Image from CI
-
 name: Deploy
 
 on:
-    workflow_call:
-       
+  workflow_call:
 
 jobs:
-    deploy:
-        runs-on: self-hosted
-        steps:
-            - name: Code Checkout
-              uses: actions/checkout@v7
+  deploy:
+    runs-on: self-hosted
 
-            - name: Copy .env file
-              run: |
-                cp .env.example .env
-                
-            - name: Docker Setup Login
-              uses: docker/login-action@v4
-              with:
-                username: ${{ vars.DOCKERHUB_USERNAME }}
-                password: ${{ secrets.DOCKERHUB_TOKEN }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v7
 
-            - name: Deploy the container using Docker Compose
-              run: |
-                docker compose down
-                docker compose up -d --build
-                
-           
+      - name: Docker Login
+        uses: docker/login-action@v4
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Deploy Application
+        run: |
+          docker compose pull
+          docker compose up -d --build
+          docker exec taskflow flask db upgrade
